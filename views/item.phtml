@@ -1,0 +1,39 @@
+<?php require('template/header.phtml') ?>
+
+<?php
+
+$items = new AuctionDataSet();
+$row=$items->getAuctions($_SESSION["ThisItem"]);//gets the record from the database query and assigns it to an object
+$highBid=$row[0]->getBid();//gets the current highest bid (there is an error on this line when pressing the bid button but it doesnt stop the new bid so it has been worked around)
+$theId=$row[0]->getId();//gets the auction id
+echo "<h2 class='text-center'>Auction number: ".$row[0]->getId()."</h2>
+        <div class='text-center'><!--all text outputs-->
+             <p>Item: ".$row[0]->getItem()."</p> 
+             <p>Seller: ".$row[0]->getSeller()."</p> 
+             <p>Current highest bidder: ".$row[0]->getBidder()."</p> 
+             <p>Current highest bid: £".$row[0]->getBid()."</p> 
+             <p>Auction start: ".$row[0]->getStart()."</p> 
+             <p>Auction end".$row[0]->getEnd()."</p>
+        </div> 
+        <div class='text-center'> <!--all images-->
+            <img src='images/".$row[0]->getImage1()."'alt='no picture'/>
+            <img src='images/".$row[0]->getImage2()."'alt='no picture'/>
+            <img src='images/".$row[0]->getImage3()."'alt='no picture'/>
+        </div>
+        <div><!--bidding-->
+        <form action='' method='post' class='col-lg-2' class='text-center>
+            <fieldset>
+                <div class='form-group'>
+                    <label for='Bid'>V Enter bid V</label>
+                    <input type='number' class='form-control' id='Bid' name='Bid'><!--input field for the new bid-->
+                    <input type='hidden' value='" . $highBid . "' name='oldBid'/><!--input for the current highest bid-->
+                    <input type='hidden' value='" . $theId . "' name='theId'/><!--input for the auction id-->
+                </div>
+                <button type='submit' class='btn btn-primary' id='loginButton' name='loginButton'>Bid</button><!--bid button-->
+            </fieldset>
+        </form>
+        </div>
+        "
+?>
+
+<?php require('template/footer.phtml') ?>
